@@ -2,7 +2,7 @@ let lastPlayedTrack = null;
 const myUrl1 = new URL(window.location.toLocaleString());
 const myUrl2 = new URL(myUrl1);
 const user = myUrl2.searchParams.get('u');
-const url_recent = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&format=json&limit=1`;
+const url_recent = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=xxx&api_key=${apiKey}&format=json&limit=1`;
 
 function updateNowPlaying() {
     // the first, original fetch for raw last.fm data
