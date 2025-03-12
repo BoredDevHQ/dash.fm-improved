@@ -20,10 +20,9 @@ It has three main views: album art with song details, artist bio with an option 
 
 ## Screenshots
 ### Just the album
-![No detail](https://github.com/peterdconradie/dash.fm/blob/main/screens/no_detail_view.png)
+![No detail](https://github.com/boreddevhq/dash.fm-improved/blob/main/screens/no_detail_view.png)
 
-### More info
-![Detail](https://github.com/peterdconradie/dash.fm/blob/main/screens/detail_view.png)
+
 
 ### Full artist bio
-![Full artist bio](https://github.com/peterdconradie/dash.fm/blob/main/screens/full_bio.png)
+![Full artist bio](https://github.com/boreddevhq/dash.fm-improved/blob/main/screens/full_bio.png)
