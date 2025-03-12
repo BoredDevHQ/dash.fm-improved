@@ -4,7 +4,7 @@
 <head>
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;200;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;200;300;400;700&display=swap" rel="stylesheet">
     <script src="apikey.js"></script>
     <script src="get_data.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -13,11 +13,21 @@
 </head>
 
 <body>
-    <div class="top-right"> <a id="fullscreen-button" href="#" onclick="fullscreen();"><i id="fullscreen-icon" class="material-icons settings-icon">fullscreen</i></a></div>
+    <!-- Blurred background that will be dynamically set from album art -->
+    <div id="album-background"></div>
+    <div id="dark-overlay"></div>
+    
+    <div class="top-right">
+        <a id="fullscreen-button" href="#" onclick="fullscreen();">
+            <i id="fullscreen-icon" class="material-icons settings-icon">fullscreen</i>
+        </a>
+    </div>
+    
     <div id="side-bar">
         <div class="content">
             <div id="extra-main-header">
-                <h2 id="artist-bio-name">Artist name here</h2> </div>
+                <h2 id="artist-bio-name">Artist name here</h2>
+            </div>
             <div id="extra-main">
                 <div id="wikipedia"></div>
                 <a id="wiki-page-link" href="" target="_blank"><img src="images/wikipedia.png"></a>
@@ -25,54 +35,50 @@
                 <div id="wikipedia_album"></div>
                 <a id="wiki-album-link" href="" target="_blank"><img src="images/wikipedia.png"></a>
             </div>
-            <div id="extra-side"> <img src="images/transparent.png" id="artist-image" alt="Album Art">
+            <div id="extra-side">
+                <img src="images/transparent.png" id="artist-image" alt="Artist Image">
                 <h4>About</h4>
                 <div class="lastfmlinks">
-                    <!--code for the full screen, not used anymore <a id="fullscreen-button" href="#" onclick="expandFooter();"><i id="fullscreen-icon" class="material-icons settings-icon">open_in_full</i></a> -->
                     <br>
-                    <h5>
-              <i class="material-icons">event</i>
-            </h5>
+                    <h5><i class="material-icons">event</i></h5>
                     <h5 id="release-date">Release date</h5>
                     <br>
-                    <h5>
-              <i class="material-icons">label</i>
-            </h5>
+                    <h5><i class="material-icons">label</i></h5>
                     <h5 id="artist-tags">Artist tags from Last.fm</h5>
                     <br>
-                    <h5>
-              <i class="material-icons">auto_awesome</i>
-            </h5>
+                    <h5><i class="material-icons">auto_awesome</i></h5>
                     <h5 id="similar-artists">Similar artists from Last.fm tags</h5>
                     <br>
+                    <h5><i class="material-icons">search</i></h5>
                     <h5>
-              <i class="material-icons">search</i>
-            </h5>
-                    <h5>
-              <a id="aoty-album-link" href="" target="_blank">AOTY: Album</a> | <a id="last_artist_link" href="" target="_blank">Last.fm: Artist</a> | <a id="last_album_link" href="" target="_blank">Last.fm: Album</a> | <a id="song-link" href="" target="_blank">Last.fm: Track</a>
-            </h5>
+                        <a id="aoty-album-link" href="" target="_blank">AOTY: Album</a> | 
+                        <a id="last_artist_link" href="" target="_blank">Last.fm: Artist</a> | 
+                        <a id="last_album_link" href="" target="_blank">Last.fm: Album</a> | 
+                        <a id="song-link" href="" target="_blank">Last.fm: Track</a>
+                    </h5>
                     <br>
+                    <h5><i class="material-icons">lyrics</i></h5>
                     <h5>
-              <i class="material-icons">lyrics</i>
-            </h5>
-                    <h5>
-              <a id="genius-lyrics-link" href="" target="_blank">Genius</a> | <a id="google-lyrics-search" href="" target="_blank">Google Search</a>
-              </h5> </div>
-                <!-- # end of fade-->
-                <p><b>Origin: </b></p>
-                <p id="artist-from">...</p>
-                <br>
-                <p><b>Area: </b></p>
-                <p id="artist-area">...</p>
-                <br>
-                <p><b>Since: </b></p>
-                <p id="artist-lifespan">...</p>
-                <br>
-                <p><b>Type: </b></p>
-                <p id="artist-type">...</p>
+                        <a id="genius-lyrics-link" href="" target="_blank">Genius</a> | 
+                        <a id="google-lyrics-search" href="" target="_blank">Google Search</a>
+                    </h5>
+                </div>
+                <div class="artist-details">
+                    <p><b>Origin: </b></p>
+                    <p id="artist-from">...</p>
+                    <br>
+                    <p><b>Area: </b></p>
+                    <p id="artist-area">...</p>
+                    <br>
+                    <p><b>Since: </b></p>
+                    <p id="artist-lifespan">...</p>
+                    <br>
+                    <p><b>Type: </b></p>
+                    <p id="artist-type">...</p>
+                </div>
                 <br>
                 <h4>Relations</h4>
-                <div id=relations>
+                <div id="relations">
                     <div id="relations-auto"></div>
                     <div id="relations-manual">
                         <a id="mb-artist-link" href="" target="_blank"><img src="images/mb.png"></a>
@@ -84,26 +90,129 @@
             </div>
         </div>
     </div>
+    
     <div id="centering">
         <div id="all_content">
             <div id="container">
-                <div id="cover-info"><img src="images/top.png" id="buffer">
-                    <div class="mbcover"> <img src="images/album.png" id="mb-album-art">
-                        <!-- <img src="images/transparent.png" id="mb-album-art" alt="Album Art"> --></div>
+                <div id="cover-info">
+                    <img src="images/top.png" id="buffer">
+                    <div class="mbcover">
+                        <img src="images/album.png" id="mb-album-art" alt="Album Art">
+                    </div>
                 </div>
-                <div id="track_info_div"> 
+                <div id="track_info_div">
                     <img src="images/top.png" id="buffer">
                     <h1 id="track-info">Track information</h1>
                     <h2 id="artist-info">Artist information</h2>
-                    <h3 id="album-info">Album information</h3> </div>
+                    <h3 id="album-info">Album information</h3>
+                </div>
             </div>
         </div>
     </div>
+    
     <div id="footer">
         <div id="footerContent">
-            <div id="top-bar"> <a id="fullscreen-button" href="#" onclick="collapseFooter();"><i id="fullscreen-icon" class="material-icons">close</i></a> </div>
+            <div id="top-bar">
+                <a id="fullscreen-button" href="#" onclick="collapseFooter();">
+                    <i id="fullscreen-icon" class="material-icons">close</i>
+                </a>
+            </div>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up observer to watch for changes to the album art
+            const albumArt = document.getElementById('mb-album-art');
+            
+            // Function to extract dominant color from an image
+            function getAverageColor(img) {
+                // Create canvas
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Set canvas size to image size
+                canvas.width = img.width;
+                canvas.height = img.height;
+                
+                // Draw image to canvas
+                ctx.drawImage(img, 0, 0);
+                
+                // Get image data
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                
+                let r = 0, g = 0, b = 0;
+                
+                // Calculate sum of all pixel values
+                for (let i = 0; i < data.length; i += 4) {
+                    r += data[i];
+                    g += data[i + 1];
+                    b += data[i + 2];
+                }
+                
+                // Calculate average
+                const pixelCount = data.length / 4;
+                r = Math.floor(r / pixelCount);
+                g = Math.floor(g / pixelCount);
+                b = Math.floor(b / pixelCount);
+                
+                return { r, g, b };
+            }
+            
+            // Function to determine if a color is dark
+            function isDarkColor(color) {
+                // Calculate perceived brightness
+                const brightness = (0.299 * color.r + 0.587 * color.g + 0.114 * color.b);
+                return brightness < 128;
+            }
+            
+            // Function to update the background and adjust text colors
+            function updateBackground() {
+                setTimeout(() => {
+                    const img = document.getElementById('mb-album-art');
+                    
+                    if (img.complete && img.naturalHeight !== 0) {
+                        // Set the background image
+                        document.getElementById('album-background').style.backgroundImage = `url(${img.src})`;
+                        
+                        // Get average color
+                        const avgColor = getAverageColor(img);
+                        
+                        // Adjust text color based on brightness
+                        const isDark = isDarkColor(avgColor);
+                        const textElements = document.querySelectorAll('#track_info_div h1, #track_info_div h2, #track_info_div h3');
+                        
+                        textElements.forEach(el => {
+                            if (isDark) {
+                                el.style.color = '#ffffff';
+                                el.style.textShadow = '2px 2px 4px rgba(0, 0, 0, 0.5)';
+                            } else {
+                                el.style.color = '#000000';
+                                el.style.textShadow = '2px 2px 4px rgba(255, 255, 255, 0.5)';
+                            }
+                        });
+                    }
+                }, 300);
+            }
+            
+            // Set up a mutation observer to watch for src changes
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'src') {
+                        updateBackground();
+                    }
+                });
+            });
+            
+            // Start observing
+            observer.observe(albumArt, { attributes: true });
+            
+            // Also call initially in case the image is already loaded
+            updateBackground();
+        });
+    </script>
 </body>
 
 </html>
