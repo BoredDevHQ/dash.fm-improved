@@ -10,6 +10,91 @@ html {
     align-items: center;
 }
 
+/* System Stats Widget Styling */
+#system-stats-widget {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 10;
+    opacity: 0.9;
+    visibility: visible;
+}
+
+.system-stats-container {
+    background-color: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 10px;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    width: 180px;
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 5px;
+}
+
+#system-name {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#system-status {
+    font-size: 12px;
+    font-weight: 500;
+    color: #4CAF50;
+}
+
+.stats-details {
+    display: flex;
+    align-items: center;
+}
+
+.stats-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.stats-icon i.material-icons {
+    font-size: 36px;
+    color: #64B5F6;
+}
+
+.stats-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+}
+
+.stats-info span {
+    margin: 2px 0;
+}
+
+/* Make system stats widget responsive */
+@media screen and (max-width: 768px) {
+    #system-stats-widget {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .system-stats-container {
+        width: 150px;
+        padding: 8px;
+    }
+    
+    .stats-icon i.material-icons {
+        font-size: 30px;
+    }
+}
+
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .content::-webkit-scrollbar {
     display: none;
