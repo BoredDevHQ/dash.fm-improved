@@ -50,3 +50,6 @@ It has three main views: album art with song details, artist bio with an option 
 
 ### Full artist bio
 ![Full artist bio](https://github.com/boreddevhq/dash.fm-improved/blob/main/screens/full_bio.png)
+
+### Real use case:
+![No detail](https://github.com/boreddevhq/dash.fm-improved/blob/main/screens/reallife.jpg)
