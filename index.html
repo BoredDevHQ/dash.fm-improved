@@ -16,8 +16,33 @@
     <!-- Blurred background that will be dynamically set from album art -->
     <div id="album-background"></div>
     <div id="dark-overlay"></div>
+
+    <div id="system-stats-widget">
+        <div class="system-stats-container">
+            <div class="stats-header">
+                <span id="system-name">Mac Stats</span>
+                <span id="system-status">Online</span>
+            </div>
+            <div class="stats-details">
+                <div class="stats-icon">
+                    <i class="material-icons">computer</i>
+                </div>
+                <div class="stats-info">
+                    <span id="cpu-usage">CPU: ---%</span>
+                    <span id="ram-usage">RAM: ---GB / ---GB</span>
+                    <span id="disk-usage">Disk: ---GB / ---GB</span>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <div class="top-right">
+        <a id="fullscreen-button" href="#" onclick="fullscreen();">
+            <i id="fullscreen-icon" class="material-icons settings-icon">fullscreen</i>
+        </a>
+    </div>
+    <div class="top-right">
+
         <a id="fullscreen-button" href="#" onclick="fullscreen();">
             <i id="fullscreen-icon" class="material-icons settings-icon">fullscreen</i>
         </a>
