@@ -5,12 +5,24 @@ This is a fork of [dash.fm](https://github.com/peterdconradie/dash.fm) i improve
 
 * ✅ Fork Succesfully
 * ✅ Drastically improve original UI
-* ⏩️ Integrate Home Asisstant sensors from home assistant desktop companion
+* ✅ Stats widget
 * ⏩️ Weather widget (home assistant or openweathermap)
 * ⏩️ Time widget
-* ⏩️ Easy configuring widgets
+* ⏩️ Easy to configure widgets
 * ⏩️ Community made widgets native support
 
+
+# Stats widget instructions:
+The stats widget requires for your host machine (the one giving the stats) to be running glances in the background, below i will instruct you on how to set this up.
+The first step is to install Glances, for this use python with pip like so: </br>
+```pip install glances[all]``` </br>
+After this, run: </br>
+```glances -w``` </br>
+Or </br>
+```python3 -m glances -w``` </br>
+Which will start a web enviroment which also deploys the api for your LAN. It is a good idea to run this in the background, which i will not explain on how to do
+since it differs per operating system. </br>
+When the web enviroment is running, go over to get_data.js and head over to the glancesconfig (roughly around line 490) and change the baseURL to the IP address of your device. (DO NOT CHANGE THE PORT (:61208)) And if you then run the page it should show pc's stats! Enjoy!
 
 
 # Original README:
