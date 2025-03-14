@@ -1,5 +1,5 @@
 # ----Dash.fm-improved----
-This is a fork of [dash.fm](https://github.com/peterdconradie/dash.fm) i improved the index.html and css to have a way nicer look with a blurred background following the album's background and added a few other nicer touches. Follow the instructions below 
+This is a fork of [dash.fm](https://github.com/peterdconradie/dash.fm) i improved the index.html and css to have a way nicer look with a blurred background following the album's background and added a few other nicer touches. More will be added soon (check the roadmap below) Check the original README below for instructions.
 
 # Roadmap:
 
