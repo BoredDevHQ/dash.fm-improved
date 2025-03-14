@@ -2,7 +2,7 @@ let lastPlayedTrack = null;
 const myUrl1 = new URL(window.location.toLocaleString());
 const myUrl2 = new URL(myUrl1);
 const user = myUrl2.searchParams.get('u');
-const url_recent = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=xxx&api_key=${apiKey}&format=json&limit=1`;
+const url_recent = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=christiaansp&api_key=${apiKey}&format=json&limit=1`;
 
 function updateNowPlaying() {
     // the first, original fetch for raw last.fm data
@@ -487,5 +487,114 @@ function fullscreen() {
         openFullscreen();
     }
 }
+
+// Glances configuration for remote device (API version 4)
+const glancesConfig = {
+    baseUrl: 'http://192.168.1.100:61208', // Replace with your device's IP address
+    endpoints: {
+        cpu: '/api/4/cpu', // CPU usage
+        mem: '/api/4/mem', // Memory usage
+        fs: '/api/4/fs', // Filesystem (disk) usage
+        swap: '/api/4/swap', // Swap usage
+     //   sensors: '/api/4/sensors', // CPU temperature (optional and non-functional on MacOS (in my testing)) 
+    }
+};
+
+// Function to fetch Glances data
+async function fetchGlancesData(endpoint) {
+    try {
+        const response = await fetch(`${glancesConfig.baseUrl}${endpoint}`);
+        if (!response.ok) {
+            throw new Error(`Error fetching ${endpoint}: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(`Error fetching ${endpoint}:`, error);
+        return null;
+    }
+}
+
+// Function to update system stats from Glances
+async function updateSystemStats() {
+    try {
+        // Fetch CPU, memory, disk, and swap data
+        const [cpuData, memData, fsData, swapData, sensorsData] = await Promise.all([
+            fetchGlancesData(glancesConfig.endpoints.cpu),
+            fetchGlancesData(glancesConfig.endpoints.mem),
+            fetchGlancesData(glancesConfig.endpoints.fs),
+            fetchGlancesData(glancesConfig.endpoints.swap),
+            fetchGlancesData(glancesConfig.endpoints.sensors),
+        ]);
+
+        // Update CPU usage
+        if (cpuData) {
+            const cpuUsage = cpuData.total;
+            document.getElementById('cpu-usage').textContent = `CPU: ${cpuUsage}%`;
+            
+            // Change icon color based on CPU usage
+            const statsIcon = document.querySelector('.stats-icon i.material-icons');
+            if (parseFloat(cpuUsage) > 80) {
+                statsIcon.style.color = '#F44336'; // Red for high usage
+            } else if (parseFloat(cpuUsage) > 50) {
+                statsIcon.style.color = '#FFC107'; // Yellow for medium usage
+            } else {
+                statsIcon.style.color = '#64B5F6'; // Blue for normal usage
+            }
+        }
+
+        // Update CPU temperature
+        if (sensorsData && sensorsData.temperatures && sensorsData.temperatures.length > 0) {
+            const cpuTemp = sensorsData.temperatures[0].value; // Assuming the first sensor is CPU
+            document.getElementById('cpu-temp').textContent = `Temp: ${cpuTemp}°C`;
+        }
+
+        // Update RAM usage
+        if (memData) {
+            const ramUsage = memData.percent;
+            const ramTotal = (memData.total / 1024 / 1024 / 1024).toFixed(1); // Convert to GB
+            const ramUsed = (memData.used / 1024 / 1024 / 1024).toFixed(1); // Convert to GB
+            document.getElementById('ram-usage').textContent = `RAM: ${ramUsed}GB / ${ramTotal}GB`;
+        }
+
+        // Update Swap usage
+        if (swapData) {
+            const swapUsage = swapData.percent;
+            document.getElementById('swap-usage').textContent = `Swap: ${swapUsage}%`;
+        }
+
+        // Update Disk usage
+        if (fsData && fsData.length > 0) {
+            // Sum up disk usage across all filesystems
+            let totalDiskSize = 0;
+            let totalDiskUsed = 0;
+            fsData.forEach(fs => {
+                totalDiskSize += fs.size; // Total size in bytes
+                totalDiskUsed += fs.used; // Used size in bytes
+            });
+
+            // Convert to GB
+            const diskTotal = (totalDiskSize / 1024 / 1024 / 1024).toFixed(1);
+            const diskUsed = (totalDiskUsed / 1024 / 1024 / 1024).toFixed(1);
+            document.getElementById('disk-usage').textContent = `Disk: ${diskUsed}GB / ${diskTotal}GB`;
+        }
+
+        // Update system status
+        document.getElementById('system-status').textContent = 'Online';
+        document.getElementById('system-status').style.color = '#4CAF50';
+    } catch (error) {
+        console.error('Error updating system stats:', error);
+        document.getElementById('system-status').textContent = 'Offline';
+        document.getElementById('system-status').style.color = '#F44336';
+    }
+}
+
+// Initialize system stats widget
+updateSystemStats();
+
+// Refresh system stats every 10 seconds
+setInterval(updateSystemStats, 10000);
+
+
 // Update the now playing information every 3 seconds
 setInterval(updateNowPlaying, 2000);
