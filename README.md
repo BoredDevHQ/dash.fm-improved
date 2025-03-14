@@ -1,4 +1,4 @@
-# ---- Readme ----
+# ----Dash.fm-improved----
 This is a fork of dash.fm i improved the index.html and css to have a way nicer look with a blurred background following the album's background and added a few other nicer touches. Follow the instructions below 
 
 # Roadmap:
