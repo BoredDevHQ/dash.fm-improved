@@ -13,22 +13,112 @@ This is a fork of [dash.fm](https://github.com/peterdconradie/dash.fm) It is a d
 
 
 ## Setup
-Setup involves obtaining a last.fm API key and inserting it into the key.js file. The dashboard can display your own or another user’s information by changing the user "&user=xxx" to your own inside of get_data.js  ```const url_recent = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=xxx&api_key=${apiKey}&format=json&limit=1`; ``` 
 
-# Stats widget instructions:
-The stats widget requires for your host machine (the one giving the stats) to be running glances in the background, below i will instruct you on how to set this up.
-The first step is to install Glances, for this use python with pip like so: </br>
-```pip install glances[all]``` </br>
-After this, run: </br>
-```glances -w``` </br>
-Or </br>
-```python3 -m glances -w``` </br>
-Which will start a web enviroment which also deploys the api for your LAN. It is a good idea to run this in the background, which i will not explain on how to do
-since it differs per operating system. </br>
-When the web enviroment is running, go over to get_data.js and head over to the glancesconfig (roughly around line 490) and change the baseURL to the IP address of your device. (DO NOT CHANGE THE PORT (:61208)) And if you then run the page it should show pc's stats! Enjoy!
+For this to work you need to have some kind of way to start a PHP server. Here are the instructions for different operating systems:
 
+### macOS
 
-It has three main views: album art with song details, artist bio with an option for full biography or full screen view, and images from the coverart archive. The dashboard’s accuracy depends on the correctness of your tags.
+1. Using built-in PHP (if installed):
+```bash
+php -S localhost:8000
+```
+
+### Windows
+
+1. Using built-in PHP (if installed):
+```cmd
+php -S localhost:8000
+```
+
+2. Using XAMPP:
+- Download XAMPP from [apachefriends.org](https://www.apachefriends.org)
+- Install XAMPP
+- Start Apache from the XAMPP Control Panel
+- Your server will be available at `http://localhost`
+
+3. Using PHP on Windows Subsystem for Linux (WSL):
+```bash
+# Install PHP in WSL
+sudo apt update
+sudo apt install php
+
+# Start PHP server
+php -S localhost:8000
+```
+
+### Linux
+
+1. Ubuntu/Debian:
+```bash
+# Install PHP
+sudo apt update
+sudo apt install php
+
+# Start PHP server
+php -S localhost:8000
+```
+
+2. Fedora:
+```bash
+# Install PHP
+sudo dnf install php
+
+# Start PHP server
+php -S localhost:8000
+```
+
+3. Arch Linux:
+```bash
+# Install PHP
+sudo pacman -S php
+
+# Start PHP server
+php -S localhost:8000
+```
+
+### BSD
+
+1. FreeBSD:
+```bash
+# Install PHP
+pkg install php
+
+# Start PHP server
+php -S localhost:8000
+```
+
+2. OpenBSD:
+```bash
+# Install PHP
+pkg_add php
+
+# Start PHP server
+php -S localhost:8000
+```
+
+3. NetBSD:
+```bash
+# Install PHP
+pkgin install php
+
+# Start PHP server
+php -S localhost:8000
+```
+
+### Notes:
+- After starting the PHP server, make sure to keep the terminal window open
+- Access your dash.fm installation at `http://localhost:8000`
+- If you're using a different port, replace 8000 with your preferred port number
+- For production environments, consider using a proper web server like Apache or Nginx
+
+### Troubleshooting:
+- If you get a "port already in use" error, try a different port number
+- Make sure PHP is in your system's PATH
+- For permission errors, try running the commands with sudo (Linux/BSD) or as administrator (Windows)
+- Check that PHP is installed by running `php -v`
+
+A setup should automatically open up on first startup, where you will fill in all your information (api key, IP address, user etc.) and then you will be good to go!
+
 
 ## Known Issues
 * On some streaming platforms (i.e.: Tidal), collaborating artists get lumped together in a single artist tag (i.e.: see https://www.last.fm/music/Skrillex,+Missy+Elliott+&+Mr.+Oizo) when there are more than one performer on a track. This can cause issues when finding the correct info.
