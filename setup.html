@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>dash.fm Setup</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .setup-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .setup-header h1 {
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .setup-header p {
+            font-size: 18px;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        .setup-steps {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .setup-steps.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .step {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .step h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .step p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 15px 0;
+            color: #64ffda;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        button {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .progress {
+            position: absolute;
+            height: 100%;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="setup-header">
+            <h1>Welcome to dash.fm</h1>
+            <p>Let's get you set up with everything you need.</p>
+            <p>Note: This setup only shows once, if you need to change the API key or the host IP after you will need to do this manually. Check the readme for instructions on how to do this.</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="setup-steps" id="step1">
+            <div class="step">
+                <h2>Step 1: Install Glances</h2>
+                <p>First, we need to install Glances to monitor your system statistics. Open your terminal and run the following command:</p>
+                <div class="code-block">pip install glances[all]</div>
+                <button onclick="nextStep(2)">I've installed Glances</button>
+            </div>
+        </div>
+
+        <div class="setup-steps" id="step2">
+            <div class="step">
+                <h2>Step 2: Start Glances Web Server</h2>
+                <p>Now, start the Glances web server by running one of these commands:</p>
+                <div class="code-block">glances -w</div>
+                <p>or</p>
+                <div class="code-block">python3 -m glances -w</div>
+                <p>Keep this running in the background. The web server will start on port 61208.</p>
+                <button onclick="nextStep(3)">I've started the server</button>
+            </div>
+        </div>
+
+        <div class="setup-steps" id="step3">
+            <div class="step">
+                <h2>Step 3: Configure Host Machine</h2>
+                <p>Enter the IP address of your host machine (the one running Glances):</p>
+                <input type="text" id="hostIP" placeholder="e.g., 192.168.1.100">
+                <button onclick="saveHostIP()">Save Host IP</button>
+            </div>
+        </div>
+
+        <div class="setup-steps" id="step4">
+            <div class="step">
+                <h2>Step 4: Set Last.fm Username</h2>
+                <p>Enter your Last.fm username:</p>
+                <input type="text" id="lastfmUser" placeholder="Your Last.fm username">
+                <button onclick="saveLastfmUser()">Save Username</button>
+            </div>
+        </div>
+
+        <div class="setup-steps" id="step5">
+            <div class="step">
+                <h2>Step 5: Set API Key</h2>
+                <p>Enter your Last.fm API key:</p>
+                <input type="text" id="apiKey" placeholder="Your Last.fm API key">
+                <button onclick="saveAPIKey()">Complete Setup</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        // Show first step immediately when page loads
+        window.onload = function() {
+            showStep(1);
+        };
+
+        function showStep(step) {
+            document.querySelectorAll('.setup-steps').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById('step' + step).classList.add('active');
+            // Calculate progress as a percentage of total steps (5 steps total)
+            document.getElementById('progress').style.width = ((step - 1) * 25) + '%';
+            currentStep = step;
+        }
+
+        function nextStep(step) {
+            showStep(step);
+        }
+
+        function saveHostIP() {
+            const hostIP = document.getElementById('hostIP').value;
+            if (!hostIP) {
+                alert('Please enter a valid IP address');
+                return;
+            }
+
+            // Send to PHP script with instruction to only update glancesconfig
+            fetch('save_config.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: 'glances',
+                    content: hostIP,
+                    pattern: /const glancesconfig = \{[\s\S]*?\};/,
+                    replacement: `const glancesconfig = {\n    baseURL: 'http://${hostIP}:61208'\n};`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    nextStep(4);
+                } else {
+                    throw new Error(data.error || 'Failed to save IP');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating get_data.js:', error);
+                alert('Error saving host IP. Please try again. Make sure you have PHP installed and running.');
+            });
+        }
+
+        function saveLastfmUser() {
+            const lastfmUser = document.getElementById('lastfmUser').value;
+            if (!lastfmUser) {
+                alert('Please enter a valid Last.fm username');
+                return;
+            }
+
+            // Send to PHP script
+            fetch('save_config.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: 'lastfm_user',
+                    content: lastfmUser
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    nextStep(5);
+                } else {
+                    throw new Error(data.error || 'Failed to save username');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating get_data.js:', error);
+                alert('Error saving Last.fm username. Please try again.');
+            });
+        }
+
+        function saveAPIKey() {
+            const apiKey = document.getElementById('apiKey').value;
+            if (!apiKey) {
+                alert('Please enter a valid API key');
+                return;
+            }
+
+            // Send to PHP script
+            fetch('save_config.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: 'apikey',
+                    content: apiKey
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = 'index.html';
+                } else {
+                    throw new Error(data.error || 'Failed to save API key');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating apikey.js:', error);
+                alert('Error saving API key. Please try again. Make sure you have PHP installed and running.');
+            });
+        }
+    </script>
+</body>
+</html> 
