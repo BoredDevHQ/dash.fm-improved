@@ -110,6 +110,10 @@ php -S localhost:8000
 - Access your dash.fm installation at `http://localhost:8000`
 - If you're using a different port, replace 8000 with your preferred port number
 - For production environments, consider using a proper web server like Apache or Nginx
+- If you mess up during your setup (wrong IP/API) open up the folder and clear the api key in apikey.js ```const ApiKey = "API_KEY_HERE";``` then reload the website, otherwise manually change it in apikey.js and get_data.js ```const glancesconfig = {
+    baseURL: 'http://IP_ADDRESS_HERE:61208'
+};``` Keep in mind that you should keep the port :61208 unless you have manually changed that in Glances.
+
 
 ### Troubleshooting:
 - If you get a "port already in use" error, try a different port number
@@ -117,8 +121,9 @@ php -S localhost:8000
 - For permission errors, try running the commands with sudo (Linux/BSD) or as administrator (Windows)
 - Check that PHP is installed by running `php -v`
 
-A setup should automatically open up on first startup, where you will fill in all your information (api key, IP address, user etc.) and then you will be good to go!
-
+A setup window should automatically open up on first startup, where you will fill in all your information (api key, IP address, user etc.) and then you will be good to go!
+Here is said setup window:
+![No detail](https://github.com/boreddevhq/dash.fm-improved/blob/main/screens/dash..fm.mov)
 
 ## Known Issues
 * On some streaming platforms (i.e.: Tidal), collaborating artists get lumped together in a single artist tag (i.e.: see https://www.last.fm/music/Skrillex,+Missy+Elliott+&+Mr.+Oizo) when there are more than one performer on a track. This can cause issues when finding the correct info.
