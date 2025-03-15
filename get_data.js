@@ -2,7 +2,7 @@ let lastPlayedTrack = null;
 const myUrl1 = new URL(window.location.toLocaleString());
 const myUrl2 = new URL(myUrl1);
 const user = myUrl2.searchParams.get('u');
-const url_recent = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=xxx&api_key=${apiKey}&format=json&limit=1`;
+const url_recent = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=xxx&api_key=${ApiKey}&format=json&limit=1`;
 
 function updateNowPlaying() {
     // the first, original fetch for raw last.fm data
@@ -288,7 +288,7 @@ function updateNowPlaying() {
             });;
             // fetch artist images fromd deezer 
             // Fetch artist bio
-            fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodedArtist}&api_key=${apiKey}&format=json`).then(response => response.json()).then(data => {
+            fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodedArtist}&api_key=${ApiKey}&format=json`).then(response => response.json()).then(data => {
                 let artistBio = data.artist.bio.summary;
                 //const artistBioFull = data.artist.bio.content;
                 const artistBioName = data.artist.name;
@@ -488,22 +488,15 @@ function fullscreen() {
     }
 }
 
-// Glances configuration for remote device (API version 4)
-const glancesConfig = {
-    baseUrl: 'http://192.168.1.100:61208', // Replace with your device's IP address
-    endpoints: {
-        cpu: '/api/4/cpu', // CPU usage
-        mem: '/api/4/mem', // Memory usage
-        fs: '/api/4/fs', // Filesystem (disk) usage
-        swap: '/api/4/swap', // Swap usage
-     //   sensors: '/api/4/sensors', // CPU temperature (optional and non-functional on MacOS (in my testing)) 
-    }
+// Glances configuration
+const glancesconfig = {
+    baseURL: ''
 };
 
 // Function to fetch Glances data
 async function fetchGlancesData(endpoint) {
     try {
-        const response = await fetch(`${glancesConfig.baseUrl}${endpoint}`);
+        const response = await fetch(`${glancesconfig.baseURL}${endpoint}`);
         if (!response.ok) {
             throw new Error(`Error fetching ${endpoint}: ${response.statusText}`);
         }
@@ -518,19 +511,16 @@ async function fetchGlancesData(endpoint) {
 // Function to update system stats from Glances
 async function updateSystemStats() {
     try {
-        // Fetch CPU, memory, disk, and swap data
-        const [cpuData, memData, fsData, swapData, sensorsData] = await Promise.all([
-            fetchGlancesData(glancesConfig.endpoints.cpu),
-            fetchGlancesData(glancesConfig.endpoints.mem),
-            fetchGlancesData(glancesConfig.endpoints.fs),
-            fetchGlancesData(glancesConfig.endpoints.swap),
-            fetchGlancesData(glancesConfig.endpoints.sensors),
+        // Fetch CPU and memory data only
+        const [cpuData, memData] = await Promise.all([
+            fetchGlancesData('/api/4/cpu'),
+            fetchGlancesData('/api/4/mem')
         ]);
 
         // Update CPU usage
         if (cpuData) {
             const cpuUsage = cpuData.total;
-            document.getElementById('cpu-usage').textContent = `CPU: ${cpuUsage}%`;
+            document.getElementById('cpu-usage').textContent = `CPU: ${cpuUsage.toFixed(1)}%`;
             
             // Change icon color based on CPU usage
             const statsIcon = document.querySelector('.stats-icon i.material-icons');
@@ -543,40 +533,11 @@ async function updateSystemStats() {
             }
         }
 
-        // Update CPU temperature
-        if (sensorsData && sensorsData.temperatures && sensorsData.temperatures.length > 0) {
-            const cpuTemp = sensorsData.temperatures[0].value; // Assuming the first sensor is CPU
-            document.getElementById('cpu-temp').textContent = `Temp: ${cpuTemp}°C`;
-        }
-
         // Update RAM usage
         if (memData) {
-            const ramUsage = memData.percent;
             const ramTotal = (memData.total / 1024 / 1024 / 1024).toFixed(1); // Convert to GB
             const ramUsed = (memData.used / 1024 / 1024 / 1024).toFixed(1); // Convert to GB
             document.getElementById('ram-usage').textContent = `RAM: ${ramUsed}GB / ${ramTotal}GB`;
-        }
-
-        // Update Swap usage
-        if (swapData) {
-            const swapUsage = swapData.percent;
-            document.getElementById('swap-usage').textContent = `Swap: ${swapUsage}%`;
-        }
-
-        // Update Disk usage
-        if (fsData && fsData.length > 0) {
-            // Sum up disk usage across all filesystems
-            let totalDiskSize = 0;
-            let totalDiskUsed = 0;
-            fsData.forEach(fs => {
-                totalDiskSize += fs.size; // Total size in bytes
-                totalDiskUsed += fs.used; // Used size in bytes
-            });
-
-            // Convert to GB
-            const diskTotal = (totalDiskSize / 1024 / 1024 / 1024).toFixed(1);
-            const diskUsed = (totalDiskUsed / 1024 / 1024 / 1024).toFixed(1);
-            document.getElementById('disk-usage').textContent = `Disk: ${diskUsed}GB / ${diskTotal}GB`;
         }
 
         // Update system status
