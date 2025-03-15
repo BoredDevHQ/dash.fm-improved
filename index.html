@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -10,6 +11,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title id="page_title">dash.fm</title>
+    <script>
+        // Check if setup is needed
+        window.onload = function() {
+            // First check if the ApiKey variable is defined and not empty
+            if (typeof ApiKey === 'undefined' || !ApiKey || ApiKey.trim() === '') {
+                window.location.href = 'setup.html';
+                return;
+            }
+
+            // Then check if glancesconfig is defined and has a valid baseURL
+            if (typeof glancesconfig === 'undefined' || 
+                !glancesconfig.baseURL || 
+                glancesconfig.baseURL === 'http://localhost:61208' || 
+                glancesconfig.baseURL.trim() === '') {
+                window.location.href = 'setup.html';
+                return;
+            }
+        };
+    </script>
 </head>
 
     
@@ -31,7 +51,6 @@
                 <div class="stats-info">
                     <span id="cpu-usage">CPU: ---%</span>
                     <span id="ram-usage">RAM: ---GB / ---GB</span>
-                    <span id="disk-usage">Disk: ---GB / ---GB</span>
                 </div>
             </div>
         </div>
@@ -128,9 +147,9 @@
                 </div>
                 <div id="track_info_div">
                     <img src="images/top.png" id="buffer">
-                    <h1 id="track-info">Track information</h1>
-                    <h2 id="artist-info">Artist information</h2>
-                    <h3 id="album-info">Album information</h3>
+                    <h1 id="track-info">Loading...</h1>
+                    <h2 id="artist-info">Loading...</h2>
+                    <h3 id="album-info">Loading...</h3>
                 </div>
             </div>
         </div>
