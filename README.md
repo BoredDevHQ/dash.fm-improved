@@ -25,8 +25,6 @@ since it differs per operating system. </br>
 When the web enviroment is running, go over to get_data.js and head over to the glancesconfig (roughly around line 490) and change the baseURL to the IP address of your device. (DO NOT CHANGE THE PORT (:61208)) And if you then run the page it should show pc's stats! Enjoy!
 
 
-# Original README:
-
 # dash.fm: a now playing dashboard for last.fm
 This dashboard displays album art and information about the artist and track currently playing on last.fm for a particular user. It fetches data from the last.fm, Wikipedia, Musicbrainz and Deezer APIs. It can run without a server or easily be deployed to a site using https://www.w3schools.com/spaces/ or netlify.com.
 
