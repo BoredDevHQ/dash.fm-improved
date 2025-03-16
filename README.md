@@ -9,6 +9,7 @@ This is a fork of [dash.fm](https://github.com/peterdconradie/dash.fm) It is a d
 * ✅ Fork Succesfully
 * ✅ Drastically improve original UI
 * ✅ Stats widget
+* ✅ Setup page
 * ⏩️ Weather widget (home assistant or openweathermap)
 * ⏩️ Time widget
 * ⏩️ Easy to configure widgets
