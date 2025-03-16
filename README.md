@@ -1,5 +1,6 @@
 # ----Dash.fm-improved----
 This is a fork of [dash.fm](https://github.com/peterdconradie/dash.fm) It is a dashboard that displays album art and information about the artist and track currently playing on last.fm for a particular user. It fetches data from the last.fm, Wikipedia, Musicbrainz and Deezer APIs. It can run without a server or easily be deploed to a site using [w3schools](https://www.w3schools.com/spaces/) or [netlify](https://netlify.com).
+![No detail](https://youtube.com/embed/U_x5WpvVOz4)
 
 # Roadmap:
 
@@ -123,7 +124,7 @@ php -S localhost:8000
 
 A setup window should automatically open up on first startup, where you will fill in all your information (api key, IP address, user etc.) and then you will be good to go!
 Here is said setup window:
-![No detail](https://github.com/boreddevhq/dash.fm-improved/blob/main/screens/dash..fm.mov)
+
 
 ## Known Issues
 * On some streaming platforms (i.e.: Tidal), collaborating artists get lumped together in a single artist tag (i.e.: see https://www.last.fm/music/Skrillex,+Missy+Elliott+&+Mr.+Oizo) when there are more than one performer on a track. This can cause issues when finding the correct info.
