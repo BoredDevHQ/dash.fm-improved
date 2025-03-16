@@ -1,4 +1,6 @@
-# ----Dash.fm-improved----
+# dash.fm V1.1 🎉
+🎉🎉The first release of dash.fm-improved! Enjoy and support me for future updates with feedback and by starring this repo! 🎉
+
 This is a fork of [dash.fm](https://github.com/peterdconradie/dash.fm) It is a dashboard that displays album art and information about the artist and track currently playing on last.fm for a particular user. It fetches data from the last.fm, Wikipedia, Musicbrainz and Deezer APIs. It can run without a server or easily be deploed to a site using [w3schools](https://www.w3schools.com/spaces/) or [netlify](https://netlify.com). </br>
 [![Release video](https://img.youtube.com/vi/U_x5WpvVOz4/0.jpg)](https://www.youtube.com/watch?v=U_x5WpvVOz4)
 
