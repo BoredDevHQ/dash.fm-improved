@@ -109,6 +109,8 @@ pkgin install php
 # Start PHP server
 php -S localhost:8000
 ```
+**After you have gone through the setup you are able to stop the PHP server and just open the HTML file, as the php server is only to set in certain variables (API, username, glances IP) which you can put in manually in the manual setup below, not requiring starting a php server.**
+
 
 ## Manual setup.
 
