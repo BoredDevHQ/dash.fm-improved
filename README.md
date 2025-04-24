@@ -16,7 +16,8 @@ This is a fork of [dash.fm](https://github.com/peterdconradie/dash.fm) It is a d
 * ⏩️ Community made widgets native support
 
 
-## Setup **Optional and not required.**
+## Setup
+**Optional** go to [these instructions](#manual-setup) for the manual setup, that doesn't require starting a php server.
 
 For this to work you need to have some kind of way to start a PHP server. Here are the instructions for different operating systems:
 
