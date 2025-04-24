@@ -16,7 +16,7 @@ This is a fork of [dash.fm](https://github.com/peterdconradie/dash.fm) It is a d
 * ⏩️ Community made widgets native support
 
 
-## Setup
+## Setup **Optional and not required.**
 
 For this to work you need to have some kind of way to start a PHP server. Here are the instructions for different operating systems:
 
@@ -109,7 +109,23 @@ pkgin install php
 php -S localhost:8000
 ```
 
-### Notes:
+## Manual setup.
+
+For this manual setup no php server is required.
+
+1. API KEY:
+   put your last.fm api key in `apikey.js`
+
+2. last.fm user:
+   in `get_data.js` you have to put your user in:
+   (line5)`const url_recent = ```https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=xxx&api_key=${ApiKey}&format=json&limit=1`;```
+and then inside of the user=xxx (replace xxx with your last.fm username)
+3. glances (stats)
+   under baseURL (roughly line 493) in `get_data.js` you will have to put the ip address of the host running glances. Read the [Glances Documentation}(https://glances.readthedocs.io/en/develop/) for instructions to install glances and to get     it running.
+   
+
+
+### Notes
 - After starting the PHP server, make sure to keep the terminal window open
 - Access your dash.fm installation at `http://localhost:8000`
 - If you're using a different port, replace 8000 with your preferred port number
