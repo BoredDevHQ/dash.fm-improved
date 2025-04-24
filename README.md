@@ -121,7 +121,7 @@ For this manual setup no php server is required.
    (line5)`const url_recent = ```https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=xxx&api_key=${ApiKey}&format=json&limit=1`;```
 and then inside of the user=xxx (replace xxx with your last.fm username)
 3. glances (stats)
-   under baseURL (roughly line 493) in `get_data.js` you will have to put the ip address of the host running glances. Read the [Glances Documentation}(https://glances.readthedocs.io/en/develop/) for instructions to install glances and to get     it running.
+   under baseURL (roughly line 493) in `get_data.js` you will have to put the ip address of the host running glances. Read the [Glances Documentation](https://glances.readthedocs.io/en/develop/) for instructions to install glances and to get     it running.
    
 
 
